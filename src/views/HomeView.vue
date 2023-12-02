@@ -33,7 +33,7 @@ export default {
         if( this.acc[i] == this.account){
           if(this.acc[i+1] == this.password){
             localStorage.setItem("logacc",this.account)
-            window.location.assign("/count")
+            this.$router.push("/count")
           } else{
             localStorage.removeItem("setacc")
             break
@@ -81,8 +81,6 @@ export default {
             console.log(this.acc[i+1])
             this.account = this.acc[i]
             this.password = this.acc[i+1]
-          } else{
-          break
           }
         }
       }
@@ -100,7 +98,7 @@ export default {
 // console.log(this.cat)
 // console.log(localStorage.getItem("c"))
 // localStorage.removeItem("a")
-localStorage.removeItem("b")
+// localStorage.removeItem("b")
 // localStorage.removeItem("account")
 // localStorage.removeItem("password")
 
@@ -109,12 +107,11 @@ localStorage.removeItem("b")
 
 <template>
 <div class="box">
-    <button type="button" class="button" @click="cost()">記帳</button>
-    <!-- <p class="textT">記帳小能手</p> -->
+    <!-- <button type="button" class="button" @click="cost()">記帳</button> -->
+    <p class="textT">記帳小能手</p>
     <p class="textL">帳號</p>
     <div class="form-floating mb-3">
       <input type="text" class="form-control tb" id="floatingInput" placeholder="" v-model="this.account">
-      <p>{{ this.account }}</p>
       <label class="tbc" for="floatingInput">請在這裡輸入帳號</label>
     </div>
     <p class="textL">密碼</p>
