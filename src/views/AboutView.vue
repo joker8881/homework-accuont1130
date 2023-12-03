@@ -8,7 +8,7 @@ export default {
       password:"",
       password2:"",
       acc:[],
-      paa:[],
+      pas:[],
       show:0,
       show2:0,
       aa:"",
@@ -22,30 +22,42 @@ export default {
   methods:{
     register(){
       this.acc = JSON.parse(localStorage.getItem("account"))
-      if(this.password == this.password2 && this.account != this.password){
-        if(this.acc == false){
-        this.acc = []
-        }
-        this.acc.push(this.account)
-        this.acc.push(this.password)
-        // console.log(this.acc)
-        localStorage.setItem("account",JSON.stringify(this.acc))
-        this.$router.push("/")
-      }else if(this.password != this.password2){
+      this.pas = JSON.parse(localStorage.getItem("password"))
+      console.log(this.acc)
+      if(this.acc == null && this.password == this.password2 && this.account != this.password){
+          this.acc = []
+          this.pas = []
+          this.acc.push(this.account)
+          this.pas.push(this.password)
+          localStorage.setItem("account",JSON.stringify(this.acc))
+          localStorage.setItem("password",JSON.stringify(this.pas))
+          this.$router.push("/")
+      } else if(this.acc == null && this.password != this.password2){
         this.b = "請確認你輸入的密碼是否一致"
-        for(let i = 0 ; i<this.acc.length ; i++){
-        if( this.acc[i] == this.account){
-            this.b = "此帳號已註冊，請選擇其他帳號名稱"
-        }
-      }
-      } else if(this.account == this.password){
+      }else if(this.acc == null && this.account == this.password){
         this.b = "請確認你輸入的帳號密碼是否重複了"
-        for(let i = 0 ; i<this.acc.length ; i++){
+      } else {
+        for(let i = 0 ; i < this.acc.length ; i++){
         if( this.acc[i] == this.account){
             this.b = "此帳號已註冊，請選擇其他帳號名稱"
+            break
+        } else{
+          if(this.password == this.password2 && this.account != this.password){
+          this.acc.push(this.account)
+          this.pas.push(this.password)
+          // console.log(this.acc)
+          localStorage.setItem("account",JSON.stringify(this.acc))
+          localStorage.setItem("password",JSON.stringify(this.pas))
+          this.$router.push("/")
+          break
+        }else if(this.password != this.password2){
+          this.b = "請確認你輸入的密碼是否一致"
+        }else if(this.account == this.password){
+          this.b = "請確認你輸入的帳號密碼是否重複了"
         }
       }
-      }
+    }
+  }
     },
     clickC(){
       let e = document.getElementsByName("eye")
@@ -101,14 +113,9 @@ export default {
       <i v-if="this.show2 == 1" class="fa-solid fa-eye-slash fa-lg eye" @click="this.clickC2()" name="eye2"></i>
       <label class="tbc" for="floatingInput">再確認一次密碼</label>
     </div>
-    <div class="checkbox">
-      <!-- <p v-if="this.passwordC == 1" class="textL" style="color: red; transition: 0.6s;">請確認你輸入的密碼是否一致</p>
-      <p v-if="this.passwordC == 2" class="textL" style="color: red; transition: 0.6s;">請確認你輸入的帳號密碼是否重複了</p>
-      <p v-if="this.passwordC == 3" class="textL" style="color: red; transition: 0.6s;">此帳號已註冊，請選擇其他帳號名稱</p> -->
-    </div>
     <div class="logbox">
       <button type="button" class="button"><RouterLink to="/" class="bc">取消</RouterLink></button>
-      <Popper  id="ac1" arrow placement="top" class="root" :content="this.b">
+      <Popper  arrow placement="top" class="root" :content="this.b">
         <button type="button" class="buttonR" @click="register()">註冊</button>
       </Popper>
     </div>
