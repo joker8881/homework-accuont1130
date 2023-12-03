@@ -12,7 +12,7 @@ export default {
       allarr:[], //匯入匯出所有資料的陣列
       date:"", //輸入彈跳視窗，日期。
       type:["收入","早餐","午餐","晚餐","飲料","交通","購物","娛樂","日用品","房租","醫療","社交","其他"], //選擇種類
-      typeP:["種類消費圓餅圖"], //選擇圖例
+      typeP:["表格細項"], //選擇圖例
       typeC: false,
       cost:"", //輸入彈跳視窗使用，金額
       ins:"", //輸入彈跳視窗使用，說明
@@ -107,6 +107,7 @@ export default {
         chartContainer.innerHTML = '';  // 清空目標 DOM 元素
         this.chartPie = echarts.init(chartContainer, "macarons");
       } else{
+        this.allarr = JSON.parse(localStorage.getItem(this.logaccount))
         this.drawPieChart()
       }
     }
@@ -177,6 +178,7 @@ export default {
     },
     //依照日期排列，圖示將頁碼重製。
     setbyDay(){
+      this.allarr = JSON.parse(localStorage.getItem(this.logaccount))
       if(this.selectedType != ""){
         this.allarr = this.allarr.filter(item => item.type === this.selectedType);
       }
@@ -430,13 +432,13 @@ export default {
           </div> -->
           <!-- <button type="button" @click="this.delete()">測試監聽</button> -->
           <div class="messageBox">
-            <button type="button" class="btn btn-primary btmC" @click="setbyIndex">預設</button>
-            <select v-model="this.selectedType" @change="changeType" class="btn btn-primary btmC">
+            <button type="button" class="btn btn-primary btmC" @click="setbyIndex" v-if="this.selectedChart == 1">預設</button>
+            <select v-model="this.selectedType" @change="changeType" class="btn btn-primary btmC" v-if="this.selectedChart == 1">
               <option value="">篩選類型：不篩選種類</option>
               <option :value="item" v-for="item in type">篩選類型： {{ item }}</option>
             </select>
-            <button type="button" class="btn btn-primary btmC" @click="setbyDay">依日期排列</button>
-            <div class="btn btn-primary btmC">
+            <button type="button" class="btn btn-primary btmC" @click="setbyDay" v-if="this.selectedChart == 1">依日期排列</button>
+            <div class="btn btn-primary btmC" v-if="this.selectedChart == 1">
               <label for="month">選擇月份：</label>
               <select v-model="selectedMonth" @change="setM">
                 <option v-for="month in 12" :key="month" :value="month">{{ month }}月</option>
@@ -446,7 +448,7 @@ export default {
           </div>
           <div class="messageBox" style="margin-top: 2%;">
             <select v-model="this.selectedChart" @change="drawPieChart(index)" class="btn btn-primary btmC">
-              <option value="0">條列式表格</option>
+              <option value="0">消費圓餅圖</option>
               <option :value="index+1" v-for="(chart,index) in typeP">{{ chart }}</option>
             </select>
           </div>
@@ -544,7 +546,6 @@ export default {
               </Popper>
             </ul>
           </nav>
-          <button type="button" @click="drawPieChart">AAA</button>
           <div></div>
           <div id="chartPie" ref="chartPie" class="pie-wrap" :class="{'disp': selectedChart == 1}" v-if="this.selectedType == 0"></div>
         </div>
