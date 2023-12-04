@@ -75,29 +75,12 @@ export default {
     localStorage.removeItem("keep")
     localStorage.removeItem("setacc")
     localStorage.removeItem("logacc")
-    // localStorage.removeItem("account")
-    // localStorage.removeItem("password")
   }
 };
-// localStorage.setItem("a",JSON.stringify(this.dog))
-// // localStorage.setItem("c","sawe")
-// // let b = localStorage.getItem("a")
-// // console.log(JSON.parse(b).name)
-// console.log(JSON.parse(localStorage.getItem("a")).name)
-// this.cat = JSON.parse(localStorage.getItem("a"))
-// console.log(this.cat)
-// console.log(localStorage.getItem("c"))
-// localStorage.removeItem("a")
-// localStorage.removeItem("b")
-// localStorage.removeItem("account")
-// localStorage.removeItem("password")
-
-
 </script>
 
 <template>
 <div class="box">
-    <!-- <button type="button" class="button" @click="cost()">記帳</button> -->
     <p class="textT">記帳小能手</p>
     <p class="textL">帳號</p>
     <div class="form-floating mb-3">

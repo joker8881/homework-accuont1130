@@ -92,11 +92,9 @@ export default {
     selectedChart:function(){
       console.log(this.selectedChart)
       if (this.chartPie && this.selectedChart == 1) {
-        // 如果存在舊的實例，先銷毀它
         this.chartPie.dispose();
         const chartDiv = document.querySelector('div[style*="height"]')
         if (chartDiv) {
-          // 將高度設置為 0
           chartDiv.style.height = '0'
         } else {
           console.log("抓不到")
@@ -356,15 +354,6 @@ export default {
         for (let i = 0; i < this.socialT.length; i++) {this.lT += this.socialT[i].cost;}
         for (let i = 0; i < this.elseT.length; i++) {this.mT += this.elseT[i].cost;}
       }
-
-      // console.log(this.aT)
-      // console.log(this.bT)
-      // console.log(this.cT)
-      // console.log(this.dT)
-      // console.log(this.eT)
-      // console.log(this.fT)
-      // console.log(this.gT)
-      // console.log(this.hT)
   },
   },
   mounted(){
@@ -373,37 +362,24 @@ export default {
     if(this.allarr == null){
       this.allarr =[]
     }
-    // this.allarr.push({number: 0,date: "2023-12-01",type: "早餐",cost: 10,introduce: "",category: "支出"})
-    // console.log(this.allarr)
-    // localStorage.setItem(this.logaccount,JSON.stringify(this.allarr))
-    // this.allarr = localStorage.getItem(this.logaccount)
-    // console.log(this.allarr)
-    // localStorage.setItem("alldata",JSON.stringify(this.allarr))
-    // localStorage.removeItem(this.logaccount)
-    // localStorage.removeItem("earn")
-    // this.allarr.push({number: 0,date: "2023-12-01",type: "早餐",cost: 10,introduce: "",category: "支出"})
-    // console.log(this.allarr)
-    // localStorage.setItem("alldata",JSON.stringify(this.allarr))
     this.setAll()
-    // setTimeout(() => { console.log(this.outcome) }, 2000)
   },
 };
 // 收支表預計內容與變數
 // 1.取得帳號顯示在畫面上。完成。
 // 2.取得本地資料庫的數據顯示在收支盈餘上，物件生成方式搞定。完成
 // 3.建立圖表收支，設置收支項目(如醫療、早午晚餐、交通)，建立日期可以設置每七天或是每月開支折線圖，物件設置方式搞定。
-// 收支圖表可以用父子層切換，就可以讓畫面不更動的情況下只更動部分元素
-// 4.刪除按鈕，必須要抓出資料把資料刪掉，物件生成方式搞定。
+// 收支圖表可以用父子層切換，就可以讓畫面不更動的情況下只更動部分元素，或許該採用此設計，因為表格無法刪除
+// 4.刪除按鈕，必須要抓出資料把資料刪掉，物件生成方式搞定，搞定
 // 5.必須要使用物件來抓取資料，否則陣列會無法篩選收支項目，搞定。
 
 // 待解決問題
-// 資料超過一定數量超出畫面範圍時，該如何呈現資料
+// 資料超過一定數量超出畫面範圍時，該如何呈現資料，搞定。
 // 方法一，bootstrap的換頁，但需要考量多少筆資料換一次頁
 // 方法二，尋找類似overflow的方法，讓多餘的顯示可以用...呈現，可以與方法一結合，分頁可以設置成每一日一個分頁。
 // 跳出視窗的呈現，應該可以找到bootstrap的方法
 
 // 刪除用彈出視窗，https://bootstrap5.hexschool.com/docs/5.1/components/modal/
-
 </script>
 
 <template>
@@ -428,9 +404,6 @@ export default {
               <p class="titleL" id="outcome" >$ {{ this.outcome }}</p>
             </div>
           </div>
-          <!-- <div class="incomeBox">
-          </div> -->
-          <!-- <button type="button" @click="this.delete()">測試監聽</button> -->
           <div class="messageBox">
             <button type="button" class="btn btn-primary btmC" @click="setbyIndex" v-if="this.selectedChart == 1">預設</button>
             <select v-model="this.selectedType" @change="changeType" class="btn btn-primary btmC" v-if="this.selectedChart == 1">
@@ -463,16 +436,11 @@ export default {
                 <div class="modal-body mbl">
                   <p class="boxT">日期</p>
                   <input type="date" name="" id="" v-model="this.date" class="select2">
-                  <!-- <p>{{ this.date }}</p> -->
                   <p class="boxT">種類</p>
                   <select v-model="this.index" class="select2">
                     <option value="">請選擇</option>
                     <option :value="index" v-for="(item, index) in type">{{ item }}</option>
                   </select>
-                  <!-- <p>{{ this.type[this.index] }}</p> -->
-                  <!-- <p class="boxT">金額</p>
-                  <input type="number" name="" id="" v-model="this.cost" oninput = "value=value.replace(/[^\d]/g,'')">
-                  <p>{{ this.cost }}</p> -->
                   <p class="boxT">金額</p>
                   <div class="form-floating mb-3">
                     <input type="number" class="form-control tb" id="floatingInput" placeholder="" v-model="this.cost" oninput = "value=value.replace(/[^\d]/g,'')">
@@ -487,16 +455,12 @@ export default {
                 <div class="modal-footer" style="justify-content: space-around;">
                     <button type="button" class="btn btn-primary a" data-bs-dismiss="modal" style="background-color: red;border: none;" @click="spentM" :disabled="!isInputValid ^ incomeisIncome">支出</button>
                     <button type="button" class="btn btn-primary a" data-bs-dismiss="modal" style="background-color: green;border: none;" @click="earnM" :disabled="!incomeisIncome">收入</button>
-                    <!-- 如果想要進行防呆且又不能先關閉視窗該怎麼做 -->
                 </div>
               </div>
             </div>
           </div>
           <!-- 使用父子層，只要改變子層的內容就好了 -->
           <div class="columBox" v-if="this.selectedChart == 1">
-            <!-- <li v-for="(item, index) in this.earn.slice(0, 5)" :key="index">
-              {{ item.type }} - {{ item.cost }}
-            </li> -->
             <div class="colum" v-for="(item, index) in this.allarr.slice((this.currentPage - 1) * this.itemsPerPage, this.currentPage * this.itemsPerPage)" :key="index">
               <div class="left1">
                 <p class="leftText1" >{{ item.type }}</p>

@@ -45,7 +45,6 @@ export default {
           if(this.password == this.password2 && this.account != this.password){
           this.acc.push(this.account)
           this.pas.push(this.password)
-          // console.log(this.acc)
           localStorage.setItem("account",JSON.stringify(this.acc))
           localStorage.setItem("password",JSON.stringify(this.pas))
           this.$router.push("/")
